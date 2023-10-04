@@ -73,61 +73,73 @@
             </button>
           </form>
           <!-- Registration Form -->
-          <form v-show="tab==='register'">
+          <vee-form v-show="tab==='register'" :validation-schema="schema"
+          @submit="register">
             <!-- Name -->
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
-              <input
+              <vee-field name="name"
                 type="text"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Enter Name"
               />
+              <ErrorMessage class="text-red-600" name="name"/>
             </div>
             <!-- Email -->
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
-              <input
-                type="email"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Enter Email"
+              <vee-field name="email"
+              type="email"
+              class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
+              placeholder="Enter Email"
               />
+              <ErrorMessage class="text-red-600" name="email"/>
             </div>
             <!-- Age -->
             <div class="mb-3">
               <label class="inline-block mb-2">Age</label>
-              <input
+              <vee-field name="age"
                 type="number"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
               />
+              <ErrorMessage class="text-red-600" name="age"/>
+
             </div>
             <!-- Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
-              <input
+              <vee-field name="password"
                 type="password"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Password"
               />
+              <ErrorMessage class="text-red-600"  name="password"/>
+
             </div>
             <!-- Confirm Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Confirm Password</label>
-              <input
+              <vee-field name="confirmed_password"
                 type="password"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Confirm Password"
               />
+              <ErrorMessage class="text-red-600"  name="confirmed_password"/>
+
             </div>
             <!-- Country -->
             <div class="mb-3">
               <label class="inline-block mb-2">Country</label>
-              <select
+              <vee-field as="select" name="country"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
               >
                 <option value="USA">USA</option>
                 <option value="Mexico">Mexico</option>
                 <option value="Germany">Germany</option>
-              </select>
+                <option value="Canada">Canada</option>
+              </vee-field>
+              <ErrorMessage class="text-red-600"  name="country"/>
+
             </div>
             <!-- TOS -->
             <div class="mb-3 pl-6">
@@ -140,7 +152,7 @@
             >
               Submit
             </button>
-          </form>
+          </vee-form>
         </div>
       </div>
     </div>
@@ -156,6 +168,15 @@ export default {
   data(){
     return{
       tab:'login',
+      schema:{
+        name:'required|min:3|max:25|alpha_spaces',
+        email:"required|email",
+        age:"required|min_value:5|max_value:135",
+        password:"required|min:3|max:25",
+        confirmed_password:"confirmed:@password",
+        country:"required|not_one_of:Canada",
+        tos:"",
+      }
     }
   },
   computed:{
@@ -163,6 +184,11 @@ export default {
     ...mapWritableState(useModalStore,{
       modelVisiblity:'isOpen',
     }),
+  },
+  methods:{
+    register(values){
+      console.log(values)
+    }
   }
 }
 </script>

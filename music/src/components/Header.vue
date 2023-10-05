@@ -24,18 +24,20 @@
 
 
 <script>
-import {mapStores} from 'pinia';
-import useModalStore from "@/stores/modal"
+// import {mapStores} from 'pinia';
+// import useStore from 'vuex'; 
 
 export default{
   name:'AppHeader',
   computed:{
-    ...mapStores(useModalStore),
+    // ...mapStores(useModalStore),
+    
   },
   methods:{
+    
     toggleAuthModal(){
-      this.modalStore.isOpen =!this.modalStore.isOpen;
-      console.log(this.modalStore.isOpen);
+      this.$store.state.isOpen =!this.$store.state.isOpen;
+      console.log(this.$store.state.isOpen);
     }
   }
 }

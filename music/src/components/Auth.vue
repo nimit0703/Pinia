@@ -1,6 +1,6 @@
 <template>
   <!-- Auth Modal -->
-  <div class="fixed z-10 inset-0 overflow-y-auto" id="modal" :class="hiddenClass">
+  <div class="fixed z-10 inset-0 overflow-y-auto" id="modal" :class="$store.getters.hiddenClass">
     <div
       class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
     >
@@ -20,7 +20,7 @@
           <div class="flex justify-between items-center pb-4">
             <p class="text-2xl font-bold">Your Account</p>
             <!-- Modal Close Button -->
-            <div class="modal-close cursor-pointer z-50" @click.prevent="modelVisiblity =false">
+            <div class="modal-close cursor-pointer z-50" @click.prevent="closeForms">
               <i class="fas fa-times"></i>
             </div>
           </div>
@@ -73,8 +73,7 @@
             </button>
           </form>
           <!-- Registration Form -->
-          <vee-form v-show="tab==='register'" :validation-schema="schema"
-          @submit="register">
+          <vee-form v-show="tab==='register'" :validation-schema="schema" @submit="register">
             <!-- Name -->
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
@@ -160,8 +159,7 @@
 </template>
 
 <script>
-import {mapState,mapWritableState} from 'pinia';
-import useModalStore from "@/stores/modal";
+
 
 export default {
   name: 'Auth',
@@ -180,15 +178,15 @@ export default {
     }
   },
   computed:{
-    ...mapState(useModalStore,['hiddenClass']),
-    ...mapWritableState(useModalStore,{
-      modelVisiblity:'isOpen',
-    }),
+    
   },
   methods:{
     register(values){
       console.log(values)
-    }
+    },
+    closeForms() {
+      this.$store.commit('setIsOpenFalse');
+    },
   }
 }
 </script>
